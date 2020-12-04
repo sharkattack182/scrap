@@ -13,7 +13,19 @@ var secondsElapsed = 0;
 var interval;
 
 function startTimer() {
-  // Write code to start the timer here
+    // Write code to start the timer here
+    console.log(workMinutesInput.value)
+    totalSeconds = workMinutesInput.value * 60;
+    var timerInterval = setInterval(function () {
+        totalSeconds--;
+        minutesDisplay.textContent = Math.floor(totalSeconds / 60);
+        secondsDisplay.textContent = totalSeconds - Math.floor(totalSeconds / 60) * 60
+
+        if(totalSeconds === 0) {
+            clearInterval(timerInterval);
+            alert("time is up")
+        }
+    }, 1000);
 }
 
 playButton.addEventListener("click", startTimer);
