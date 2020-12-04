@@ -12,9 +12,22 @@ var totalSeconds = 0;
 var secondsElapsed = 0;
 var interval;
 
-
+  
 function startTimer() {
     // Write code to start the timer here
+    statusToggle.addEventListener('change', function() {
+        if (this.checked) {
+          console.log("Checkbox is checked..");
+          startTimer();
+          
+        } else {
+          console.log("Checkbox is not checked..");
+          clearInterval(); 
+          restTimer();
+        }
+      });
+    
+    
     console.log(workMinutesInput.value)
     totalSeconds = workMinutesInput.value * 60;
     var timerInterval = setInterval(function () {
@@ -26,65 +39,58 @@ function startTimer() {
             clearInterval(timerInterval);
             alert("time is up")
         }
-
-
-
+        
     }, 1000);
 
-    // Stops the timer and resets the time back to users input
-    stopButton.addEventListener("click", function () {
+    function newTimer() {
+
+        var newInterval = setInterval(function () {
+            totalSeconds--;
+            minutesDisplay.textContent = Math.floor(totalSeconds / 60);
+            secondsDisplay.textContent = totalSeconds - Math.floor(totalSeconds / 60) * 60
+
+            if (totalSeconds === 0) {
+                clearInterval(newInterval);
+                alert("time is up")
+            }
+
+        }, 1000);
+    }
+
+    // This function stops the timer and resets it
+    function stopTimer() {
         clearInterval(timerInterval);
         console.log(totalSeconds)
         totalSeconds = workMinutesInput.value * 60;
         minutesDisplay.textContent = Math.floor(totalSeconds / 60);
         secondsDisplay.textContent = "00"
-    });
+    }
+    
+    // this function sets the pause timer counts down the rest time then starts a timer where the previous left off. 
+    function restTimer() {
 
-    // pause the timer starts new interval for rest min and creates a new timer at the end
-    pauseButton.addEventListener("click", function () {
         console.log("paused");
-        var restMilliseconds = restMinutesInput.value * 60000;
-        console.log(restMilliseconds)
         clearInterval(timerInterval);
         console.log(totalSeconds);
         var restSeconds = restMinutesInput.value * 60;
 
-        // rest period timer
-function restTimer() {
-    var restInterval = setInterval(function () {
-        restSeconds--;
-        minutesDisplay.textContent = Math.floor(restSeconds / 60);
-        secondsDisplay.textContent = restSeconds - Math.floor(restSeconds / 60) * 60
+        var restInterval = setInterval(function () {
+            restSeconds--;
+            minutesDisplay.textContent = Math.floor(restSeconds / 60);
+            secondsDisplay.textContent = restSeconds - Math.floor(restSeconds / 60) * 60
 
-        if (restSeconds === 0) {
-            clearInterval(restInterval);
-            newTimer();
-            function newTimer() {
-
-                var newInterval = setInterval(function () {
-                    totalSeconds--;
-                    minutesDisplay.textContent = Math.floor(totalSeconds / 60);
-                    secondsDisplay.textContent = totalSeconds - Math.floor(totalSeconds / 60) * 60
-
-                    if (totalSeconds === 0) {
-                        clearInterval(newInterval);
-                        alert("time is up")
-                    }
-
-
-
-                }, 1000);
+            if (restSeconds === 0) {
+                clearInterval(restInterval);
+                newTimer();
             }
 
-        }
+            
+        }, 1000)
 
-    }, 1000)
+    };
 
-};
-        restTimer()
-
-    })
-
+    pauseButton.addEventListener("click", restTimer);
+    stopButton.addEventListener("click", stopTimer);
 
 }
 
@@ -92,5 +98,4 @@ function restTimer() {
 
 
 playButton.addEventListener("click", startTimer);
-
 
