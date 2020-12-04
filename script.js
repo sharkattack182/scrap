@@ -25,7 +25,21 @@ function startTimer() {
             clearInterval(timerInterval);
             alert("time is up")
         }
+        stopButton.addEventListener("click", function() {
+            clearInterval(timerInterval);
+            console.log(totalSeconds)
+            totalSeconds = workMinutesInput.value * 60;
+            minutesDisplay.textContent = Math.floor(totalSeconds / 60);
+            secondsDisplay.textContent = "00"
+        })
     }, 1000);
+
+
+    
 }
 
+
+
+
 playButton.addEventListener("click", startTimer);
+
