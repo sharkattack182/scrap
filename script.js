@@ -58,6 +58,7 @@ function startTimer() {
 
                 if (restSeconds === 0) {
                     clearInterval(restInterval);
+                    newTimer();
                     function newTimer() {
 
                         var newInterval = setInterval(function () {
